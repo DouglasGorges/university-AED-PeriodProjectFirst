@@ -2,94 +2,107 @@
 #include <stdlib.h>
 #include <locale.h>
 
-int numero, i;
-struct apartamentos {
-  char nome[50];
-  int numeroApartamento, moradores;
-  float valor, area;
+int num, i;
+
+struct apartment {
+  char apartmentResident[50];
+  int apartmentNumber, qtdResidents;
+  float value, area;
   };
 
-struct apartamentos vetApartamentos[2];
+struct apartment vetApartment[2];
 
-void lerApartamentos(int pos){
-	cabecalho();
-	printf("INSERIR NOVO APARTAMENTO \n\n");
-	printf("%dº Apartamento: \n\n", (i+1));
-	fflush(stdin);
-	printf("Nome do morador: ");
-	gets(vetApartamentos[pos].nome);
-	fflush(stdin);
-	printf("Número do apartamento: ");
-	scanf("%d", &vetApartamentos[pos].numeroApartamento);
-	fflush(stdin);
-	printf("Área do imovel: ");
-	scanf("%f", &vetApartamentos[pos].area);
-	fflush(stdin);
-	printf("Quantidade de moradores: ");
-	scanf("%d", &vetApartamentos[pos].moradores);
-	fflush(stdin);
-	system("cls");
+void apartmentRead(){
+	for(i=0; i<2; i++){
+		title();
+		printf("INSERIR NOVO APARTAMENTO \n\n");
+		printf("%dº Apartamento: \n\n", (i+1));
+		fflush(stdin);
+		printf("Nome do morador: ");
+		gets(vetApartment[i].apartmentResident);
+		fflush(stdin);
+		printf("Número do apartamento: ");
+		scanf("%d", &vetApartment[i].apartmentNumber);
+		fflush(stdin);
+		printf("Área do imovel: ");
+		scanf("%f", &vetApartment[i].area);
+		fflush(stdin);
+		printf("Quantidade de moradores: ");
+		scanf("%d", &vetApartment[i].qtdResidents);
+		fflush(stdin);
+		system("cls");
+	}
 }
 
-void mostraResultado(int pos){
-	printf("%s, AP %d: R$ %.2f\n",
-		vetApartamentos[pos].nome,
-		vetApartamentos[pos].numeroApartamento,
-		vetApartamentos[pos].valor);
-}
-
-void cabecalho(){
+void title(){
 	printf("\n------------- SOFT CONDO ------------\n");
 	printf("\n-------------------------------------");
 	printf("\n- Sistemas de gestão de condomínios -");
-	printf("\n--------------- (v1.1) --------------\n\n");
+	printf("\n--------------- (v1.1) --------------\n");
+	printf("-------------------------------------\n\n\n");
+}
+
+void mainMenu(){
+	title();
+	printf("ESCOLHA A OPCÃO DESEJADA:\n\n");
+    printf("1- Inserir novo apartamento\n");
+    printf("2- Listar valores a serem pagos\n\n");
+    printf("3- Sair do sistema\n\n");
+    scanf("%d", &num);
+}
+
+int showResult(){
+	title();
+ 	printf("VALORES A SEREM PAGOS: \n\n");
+	printf("PROPRIETÁRIO / N.APART / VALOR:\n");
+	for(i=0; i<2; i++){
+		calculate(i);
+    	printf("%s, AP %d: R$ %.2f\n",
+		vetApartment[i].apartmentResident,
+		vetApartment[i].apartmentNumber,
+		vetApartment[i].value);
+	}
+}
+
+void backMainMenu(){
+	printf("\n\n2- Voltar ao menu inicial\n");
+	printf("3- Sair do sistema\n\n");
+	scanf("%d", &num);
+	switch(num){
+		case 2:
+			system("cls");
+			break;
+		case 3:
+			exit(0);
+	}
+}
+
+int calculate(int pos){
+	//implementação do cálculo:
+	//vetApartment[pos].value = ALGUMA COISA;
 }
 
 int main(int argc, char *argv[]) {
 	setlocale(LC_ALL, "Portuguese");
 	
 	do{
-		cabecalho();
-		printf("ESCOLHA A OPCÃO DESEJADA:\n\n");
-	    printf("1- Inserir novo apartamento\n");
-	    printf("2- Listar valores a serem pagos\n\n");
-	    printf("3- Sair do sistema\n\n");
-	    scanf("%d", &numero);
-		
-	    switch(numero){
-	
+		mainMenu();
+		switch(num){
 		    case 1:
 		    	system("cls");
-		        for(i=0; i<2; i++){
-		        	lerApartamentos(i);
-				}
+		    	apartmentRead();
 		        break;
 		    case 2:
 		    	system("cls");
-		    	cabecalho();
-		     	printf("VALORES A SEREM PAGOS: \n\n");
-				printf("PROPRIETÁRIO / N.APART / VALOR:\n");
-				for(i=0; i<2; i++){
-		        	mostraResultado(i);
-				}
-				printf("\n\n2- Voltar ao menu inicial\n");
-				printf("3- Sair do sistema\n\n");
-				scanf("%d", &numero);
-				switch(numero){
-					case 2:
-						system("cls");
-						break;
-					
-					case 3:
-						exit(0);
-				}
-				break;
+		    	showResult();
+		    	backMainMenu();
+		    	break;
 			case 3:
 				exit(0);
 			default:
 				system("cls");
-				printf("%d é uma opção inválida. Por favor, tente novamente.", numero);
+				printf("%d é uma opção inválida. Por favor, tente novamente.", num);
 				break;
 		}
-	}while(numero != 3);
+	}while(num != 3);
 }
