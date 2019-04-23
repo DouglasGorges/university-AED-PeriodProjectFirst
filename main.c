@@ -3,6 +3,7 @@
 #include <locale.h>
 
 int num, i;
+float condoSpenses = 1000;
 
 struct apartment {
   char apartmentResident[50];
@@ -33,7 +34,6 @@ void apartmentRead(){
 		system("cls");
 	}
 }
-
 void title(){
 	printf("\n------------- SOFT CONDO ------------\n");
 	printf("\n-------------------------------------");
@@ -41,7 +41,6 @@ void title(){
 	printf("\n--------------- (v1.1) --------------\n");
 	printf("-------------------------------------\n\n\n");
 }
-
 void mainMenu(){
 	title();
 	printf("ESCOLHA A OPCÃO DESEJADA:\n\n");
@@ -50,7 +49,6 @@ void mainMenu(){
     printf("3- Sair do sistema\n\n");
     scanf("%d", &num);
 }
-
 int showResult(){
 	title();
  	printf("VALORES A SEREM PAGOS: \n\n");
@@ -63,7 +61,6 @@ int showResult(){
 		vetApartment[i].value);
 	}
 }
-
 void backMainMenu(){
 	printf("\n\n2- Voltar ao menu inicial\n");
 	printf("3- Sair do sistema\n\n");
@@ -76,15 +73,19 @@ void backMainMenu(){
 			exit(0);
 	}
 }
-
-int calculate(int pos){
-	//implementação do cálculo:
-	//vetApartment[pos].value = ALGUMA COISA;
+int calculate(int i){
+	int x;
+	float totalArea = 0, areaSpenses;
+	for(x=0;x<2;x++){
+		totalArea += vetApartment[x].area;
+	}
+	areaSpenses = condoSpenses / totalArea;
+	for(x=0;x<2;x++){
+		vetApartment[i].value = areaSpenses * vetApartment[i].area;
+	}
 }
-
 int main(int argc, char *argv[]) {
 	setlocale(LC_ALL, "Portuguese");
-	
 	do{
 		mainMenu();
 		switch(num){
