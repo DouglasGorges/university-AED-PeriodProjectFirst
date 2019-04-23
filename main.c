@@ -3,7 +3,7 @@
 #include <locale.h>
 
 int num, i;
-float condoSpenses = 1000;
+float condoSpenses;
 
 struct apartment {
   char apartmentResident[50];
@@ -13,6 +13,28 @@ struct apartment {
 
 struct apartment vetApartment[2];
 
+void title(){
+	printf("\n------------- SOFT CONDO ------------\n");
+	printf("\n-------------------------------------");
+	printf("\n- Sistemas de gestão de condomínios -");
+	printf("\n--------------- (v1.1) --------------\n");
+	printf("-------------------------------------\n\n\n");
+}
+void mainMenu(){
+	title();
+	printf("ESCOLHA A OPCÃO DESEJADA:\n\n");
+    printf("1- Inserir novo apartamento\n");
+    printf("2- Informar custo mensal do condomínio\n");
+    printf("3- Listar valores a serem pagos\n\n");
+    printf("4- Sair do sistema\n\n");
+    scanf("%d", &num);
+}
+void condoSpensesRead(){
+	title();
+	printf("INFORME OS CUSTOS MENSAIS TOTAIS DO CONDOMÍNIO: R$");
+	scanf("%f", &condoSpenses);
+	fflush(stdin);
+}
 void apartmentRead(){
 	for(i=0; i<2; i++){
 		title();
@@ -34,20 +56,16 @@ void apartmentRead(){
 		system("cls");
 	}
 }
-void title(){
-	printf("\n------------- SOFT CONDO ------------\n");
-	printf("\n-------------------------------------");
-	printf("\n- Sistemas de gestão de condomínios -");
-	printf("\n--------------- (v1.1) --------------\n");
-	printf("-------------------------------------\n\n\n");
-}
-void mainMenu(){
-	title();
-	printf("ESCOLHA A OPCÃO DESEJADA:\n\n");
-    printf("1- Inserir novo apartamento\n");
-    printf("2- Listar valores a serem pagos\n\n");
-    printf("3- Sair do sistema\n\n");
-    scanf("%d", &num);
+int calculate(int i){
+	int x;
+	float totalArea = 0, areaSpenses;
+	for(x=0;x<2;x++){
+		totalArea += vetApartment[x].area;
+	}
+	areaSpenses = condoSpenses / totalArea;
+	for(x=0;x<2;x++){
+		vetApartment[i].value = areaSpenses * vetApartment[i].area;
+	}
 }
 int showResult(){
 	title();
@@ -73,17 +91,6 @@ void backMainMenu(){
 			exit(0);
 	}
 }
-int calculate(int i){
-	int x;
-	float totalArea = 0, areaSpenses;
-	for(x=0;x<2;x++){
-		totalArea += vetApartment[x].area;
-	}
-	areaSpenses = condoSpenses / totalArea;
-	for(x=0;x<2;x++){
-		vetApartment[i].value = areaSpenses * vetApartment[i].area;
-	}
-}
 int main(int argc, char *argv[]) {
 	setlocale(LC_ALL, "Portuguese");
 	do{
@@ -95,10 +102,15 @@ int main(int argc, char *argv[]) {
 		        break;
 		    case 2:
 		    	system("cls");
+		    	condoSpensesRead();
+		    	backMainMenu();
+		    	break;
+		    case 3:
+		    	system("cls");
 		    	showResult();
 		    	backMainMenu();
 		    	break;
-			case 3:
+			case 4:
 				exit(0);
 			default:
 				system("cls");
